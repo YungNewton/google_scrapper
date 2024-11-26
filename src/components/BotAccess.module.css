@@ -1,0 +1,200 @@
+/* Main container styling */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f7f7f7; /* Soft background */
+  position: relative; /* To position the logout button */
+}
+
+label {
+  font-size: 14.5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Form container */
+.form-container {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff; /* White form background */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+}
+
+/* Heading */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+/* Form input fields */
+.form-input {
+  width: 95%;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+/* Checkbox group styling */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox-group input {
+  margin-right: 10px;
+}
+
+/* Buttons */
+.option-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #5356FF; /* Primary blue button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 10px;
+}
+
+.option-button:hover {
+  background-color: #4044C9; /* Darker blue on hover */
+}
+
+/* Google login button */
+.googleLogin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f1efef; /* Light gray background */
+  color: black !important;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.googleLogin:hover {
+  background-color: #e0e0e0; /* Slightly darker gray on hover */
+}
+
+.googleLogin img {
+  margin-right: 10px;
+  height: 20px;
+  width: 20px;
+}
+
+/* Logout button positioned at bottom-right */
+.logout-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #FF5C5C; /* Soft red button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.logout-button:hover {
+  background-color: #E04444; /* Darker red on hover */
+}
+
+/* Media Queries */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .form-container {
+      max-width: 90%; /* Reduce max-width for smaller devices */
+      padding: 15px;
+  }
+
+  h1 {
+      font-size: 22px;
+  }
+
+  .option-button,
+  .googleLogin {
+      padding: 8px;
+  }
+
+  .logout-button {
+      bottom: 15px;
+      right: 15px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .form-container {
+      width: 100%; /* Full width on mobile */
+      padding: 10px;
+  }
+
+  h1 {
+      font-size: 20px;
+  }
+
+  .form-input {
+      padding: 8px;
+  }
+
+  .option-button,
+  .googleLogin,
+  .logout-button {
+      font-size: 14px; /* Smaller font for buttons */
+      padding: 8px;
+  }
+}
+
+/* Linking Google container */
+.linking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Spinner animation */
+.spinner {
+  margin: 20px 0;
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ccc;
+  border-top-color: #5356ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
