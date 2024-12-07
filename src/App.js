@@ -9,7 +9,7 @@ function App() {
   useEffect(() => {
     // Set interval to ping the keep-alive endpoint every 5 minutes
     const interval = setInterval(() => {
-      axios.get('http://192.168.0.167:5000/keep_alive', { withCredentials: true })
+      axios.get('https://form-handler-ai.twilightparadox.com/keep_alive', { withCredentials: true })
         .catch(error => {
           console.error('Session keep-alive error:', error);
         });

@@ -1,21 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import GoogleForm from './GoogleForm';
 import styles from './BotAccess.module.css';
 
 const BotAccess = () => {
   const [file, setFile] = useState(null);
-  const [showGoogleForm, setShowGoogleForm] = useState(false);
-
-  // Monitor for successful redirection and show toast
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('status') === 'success') {
-      toast.success('Authenticated successfully!');
-    }
-  }, []);
+  const [isLinkingGoogle, setIsLinkingGoogle] = useState(false);
+  const [googleAuthLink, setGoogleAuthLink] = useState('');
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -33,7 +25,7 @@ const BotAccess = () => {
     formData.append('file', file);
 
     try {
-      await axios.post('http://192.168.0.167:5000/upload_excel', formData, {
+      await axios.post('https://form-handler-ai.twilightparadox.com/upload_excel', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -45,20 +37,37 @@ const BotAccess = () => {
     }
   };
 
-  // Show Google form
-  const handleGoogleLinkClick = () => {
-    setShowGoogleForm(true);
-  };
+  // Handle Google linking process
+  const handleGoogleLinkClick = async () => {
+    setIsLinkingGoogle(true);
+    setGoogleAuthLink(''); // Reset previous link
+  
+    // Simulate delay to display a hardcoded link
+    setTimeout(() => {
+      const simulatedLink = "http://104.198.205.151:8080/vnc.html"; // Replace with your hardcoded link
+      setGoogleAuthLink(simulatedLink);
+      console.log('[DEBUG] Google link displayed after delay:', simulatedLink);
+    }, 3000); // Simulated 3-second delay
+  
+    // Call the /save_user_data endpoint, but ignore response for link display
+    try {
+      await axios.post('https://form-handler-ai.twilightparadox.com/save_user_data');
+      console.log('[DEBUG] Save user data process initiated.');
+    } catch (error) {
+      console.error('[ERROR] Error during Google linking process:', error);
+    }
+  };  
 
-  // Return from Google form
-  const handleGoogleFormClose = () => {
-    setShowGoogleForm(false);
+  // Handle going back from the Google linking process
+  const handleGoBack = () => {
+    setIsLinkingGoogle(false);
+    setGoogleAuthLink('');
   };
 
   // Fetch Google Auth URL and open in a new tab
   const handleGetAuthURL = async () => {
     try {
-      const response = await axios.get('http://192.168.0.167:5000/get-auth-url');
+      const response = await axios.get('https://form-handler-ai.twilightparadox.com/get-auth-url');
       const { auth_url } = response.data;
 
       if (auth_url) {
@@ -75,7 +84,7 @@ const BotAccess = () => {
   // Handle Logout
   const handleLogout = async () => {
     try {
-      await axios.post('http://192.168.0.167:5000/logout', {}, { withCredentials: true });
+      await axios.post('https://form-handler-ai.twilightparadox.com/logout', {}, { withCredentials: true });
       window.location.href = '/'; // Redirect to homepage after logout
     } catch (error) {
       console.error('Logout error:', error);
@@ -85,8 +94,23 @@ const BotAccess = () => {
 
   return (
     <div className={styles['page-container']}>
-      {showGoogleForm ? (
-        <GoogleForm onClose={handleGoogleFormClose} />
+      {isLinkingGoogle ? (
+        <div className={styles['linking-container']}>
+          <h2>Linking Google Account...</h2>
+          <div className={styles['spinner']} />
+          {googleAuthLink ? (
+            <p>
+              <a href={googleAuthLink} target="_blank" rel="noopener noreferrer">
+                Click here to link your Google Account
+              </a>
+            </p>
+          ) : (
+            <p>Please wait while we prepare your link.</p>
+          )}
+          <button onClick={handleGoBack} className={styles['option-button']}>
+            Go Back
+          </button>
+        </div>
       ) : (
         <div className={styles['form-container']}>
           <h1>Bot Access</h1>
@@ -106,15 +130,18 @@ const BotAccess = () => {
             </button>
           </div>
 
-          {/* Google Login Button */}
+          {/* Google Link Button */}
           <div className={styles.socialLogin}>
-            <button onClick={handleGoogleLinkClick} className={`${styles.googleLogin}`}>
+            <button
+              onClick={handleGoogleLinkClick}
+              className={`${styles['option-button']} ${styles['googleLogin']}`}
+            >
               <img src="/assets/google-icon.png" alt="Google icon" />
               Link to Google
             </button>
           </div>
 
-          {/* Button to Get Auth URL */}
+          {/* Authenticate App Button */}
           <div className={styles.authURL}>
             <button onClick={handleGetAuthURL} className={styles['option-button']}>
               Authenticate App.
